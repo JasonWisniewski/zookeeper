@@ -8,7 +8,7 @@ const app = express ();
 app.use(express.urlencoded({extended:  true}));
 // parse incoming JSON data
 app.use(express.json());
-
+app.use(express.static('public'));
 const {animals} = require('./:data/animals');
 
 function filterByQuery(query, animalsArray) {
@@ -109,6 +109,12 @@ function validateAnimal(animal) {
   }
   return true;
 }
+
+console.log('Current directory: ' + process.cwd());
+
+app.get('/', (req,res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 app.listen(PORT, ()=> {
   console.log(`API server now on port ${PORT}!`);
